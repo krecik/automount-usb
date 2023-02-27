@@ -1,0 +1,3 @@
+KERNEL=="sd[a-z]*[0-9]", SUBSYSTEM=="block", SUBSYSTEMS=="scsi", ACTION=="add", RUN+="/bin/systemctl start scsi-mount@%k.service"
+
+KERNEL=="sd[a-z]*[0-9]", SUBSYSTEM=="block", ACTION=="remove", RUN+="/bin/systemctl stop scsi-mount@%k.service"

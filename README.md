@@ -4,7 +4,7 @@ _This is a dirty solution; but works. A good approach would be to use
 __libudev__._
 
 
-On inserting an USB drive, automounts the drive at /media/ as a
+On inserting an SCSI drive, automounts the drive at /media/ as a
 directory named by device label; just the device name if label is
 empty: /media/usbtest, /media/sdd
 

@@ -10,7 +10,7 @@
 # a USB drive.
 
 PATH="$PATH:/usr/bin:/usr/local/bin:/usr/sbin:/usr/local/sbin:/bin:/sbin"
-log="logger -t usb-mount.sh -s "
+log="logger -t scsi-mount.sh -s "
 
 usage()
 {
@@ -43,6 +43,10 @@ do_mount()
 
     # Figure out a mount point to use
     LABEL=${ID_FS_LABEL}
+    if [[ "${LABEL:0:5}" != tank- ]]; then
+        ${log} "Warning: ${DEVICE} will be not mounted"
+        exit 1
+    fi
     if grep -q " /media/${LABEL} " /etc/mtab; then
         # Already in use, make a unique one
         LABEL+="-${DEVBASE}"
@@ -63,18 +67,13 @@ do_mount()
     # Global mount options
     OPTS="rw,relatime"
 
-    # File system type specific mount options
-    if [[ ${ID_FS_TYPE} == "vfat" ]]; then
-        OPTS+=",users,gid=100,umask=000,shortname=mixed,utf8=1,flush"
-    fi
-
     if ! mount -o ${OPTS} ${DEVICE} ${MOUNT_POINT}; then
         ${log} "Error mounting ${DEVICE} (status = $?)"
         rmdir "${MOUNT_POINT}"
         exit 1
     else
         # Track the mounted drives
-        echo "${MOUNT_POINT}:${DEVBASE}" | cat >> "/var/log/usb-mount.track" 
+        echo "${MOUNT_POINT}:${DEVBASE}" | cat >> "/var/log/scsi-mount.track"
     fi
 
     ${log} "Mounted ${DEVICE} at ${MOUNT_POINT}"
@@ -88,9 +87,8 @@ do_unmount()
         umount -l ${DEVICE}
 	${log} "Unmounted ${DEVICE} from ${MOUNT_POINT}"
         /bin/rmdir "${MOUNT_POINT}"
-        sed -i.bak "\@${MOUNT_POINT}@d" /var/log/usb-mount.track
+        sed -i.bak "\@${MOUNT_POINT}@d" /var/log/scsi-mount.track
     fi
-
 
 }
 

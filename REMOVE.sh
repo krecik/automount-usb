@@ -5,17 +5,17 @@
 PATH="$PATH:/usr/bin:/usr/local/bin:/usr/sbin:/usr/local/sbin:/bin:/sbin"
 
 # Just a best effort
-rm -f /usr/local/bin/usb-mount.sh
+rm -f /usr/local/bin/scsi-mount.sh
 
-# Systemd unit file for USB automount/unmount 
-rm -f /etc/systemd/system/usb-mount@.service
+# Systemd unit file for scsi automount/unmount 
+rm -f /etc/systemd/system/scsi-mount@.service
 
 # Remove the track files
-rm -f /var/log/usb-mount.track*
+rm -f /var/log/scsi-mount.track*
 
 # Remove udev rule
-sed -i "/systemctl\sstart\susb-mount/d" /etc/udev/rules.d/99-local.rules
-sed -i "/systemctl\sstop\susb-mount/d" /etc/udev/rules.d/99-local.rules
+sed -i "/systemctl\sstart\sscsi-mount/d" /etc/udev/rules.d/99-local.rules
+sed -i "/systemctl\sstop\sscsi-mount/d" /etc/udev/rules.d/99-local.rules
 
 systemctl daemon-reload
 udevadm control --reload-rules
