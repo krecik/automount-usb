@@ -47,7 +47,7 @@ do_mount()
         ${log} "Warning: ${DEVICE} will be not mounted"
         exit 1
     fi
-    if grep -q " /media/${LABEL} " /etc/mtab; then
+    if grep -q " /mnt/${LABEL} " /etc/mtab; then
         # Already in use, make a unique one
         LABEL+="-${DEVBASE}"
     fi
@@ -58,7 +58,7 @@ do_mount()
         DEV_LABEL="${DEVBASE}"
     fi
 
-    MOUNT_POINT="/media/${DEV_LABEL}"
+    MOUNT_POINT="/mnt/${DEV_LABEL}"
 
     ${log} "Mount point: ${MOUNT_POINT}"
 

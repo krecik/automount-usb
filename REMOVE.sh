@@ -14,8 +14,7 @@ rm -f /etc/systemd/system/scsi-mount@.service
 rm -f /var/log/scsi-mount.track*
 
 # Remove udev rule
-sed -i "/systemctl\sstart\sscsi-mount/d" /etc/udev/rules.d/99-local.rules
-sed -i "/systemctl\sstop\sscsi-mount/d" /etc/udev/rules.d/99-local.rules
+unlink /etc/udev/rules.d/99-scsi-automount.rules
 
 systemctl daemon-reload
 udevadm control --reload-rules

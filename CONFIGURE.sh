@@ -11,7 +11,7 @@ cp ./scsi-mount.sh /usr/local/bin/
 cp ./scsi-mount@.service /etc/systemd/system/scsi-mount@.service
 
 # Create udev rule to start/stop scsi-mount@.service on hotplug/unplug
-cat ./99-local.rules.scsi-mount >> /etc/udev/rules.d/99-local.rules
+cp ./99-scsi-automount.rules /etc/udev/rules.d/99-scsi-automount.rules
 
 systemctl daemon-reload
 udevadm control --reload-rules
